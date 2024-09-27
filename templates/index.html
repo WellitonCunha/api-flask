@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Usuários</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Permite que os elementos sejam organizados em coluna */
+            align-items: center; /* Centraliza os elementos horizontalmente */
+        }
+
+        /* Formulário */
+        form {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%; /* Garante que o formulário ocupe a largura total */
+            max-width: 600px; /* Limita a largura máxima do formulário */
+        }
+
+        form input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex: 1; /* Faz o input ocupar todo o espaço disponível */
+        }
+
+        form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px; /* Espaçamento entre o formulário e a tabela */
+            max-width: 600px; /* Limita a largura máxima da tabela */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Botões de ação */
+        .button-container {
+            display: inline-block;
+        }
+
+        .button-container input[type="submit"] {
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <h2> Cadastro de novo usuário </h2>
+    <form action="/create" method="post">
+        <input type="text"  name="name" placeholder="Informe o nome">
+        <input type="submit" value="Criar">
+    </form>
+    <hr>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td>
+                <form action="/update" method="post">
+                    <label>{{row[0]}}</label>
+                    <input type="hidden" name="id" value="{{row[0]}}">
+                    <input type="text" name="name" value="{{row[1]}}">
+                    <div class="button-container">
+                        <input type="submit" value="Atualizar">
+                    </div>
+                </form>
+            </td>
+
+            <td>
+                <form action="/delete" method="post">                
+                    <input type="hidden" name="id" value="{{row[0]}}">                    
+                    <div class="button-container">
+                        <input type="submit" value="Deletar">
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
